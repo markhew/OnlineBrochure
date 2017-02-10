@@ -22,12 +22,9 @@ namespace MVCRazorApp.Controllers
 		// GET: /Products/ 
 		public ActionResult Index()
 		{
-			ProductViewModel model = new ProductViewModel();
-			model.Products = db.Products.ToList();
-			model.Categories = db.Categories.ToList();
-			//model.Categories = db.Categories.ToList();
-			return View(model.Products);
+			return View(db.Products.ToList());
 		}
+
 
 		// GET: /Movies/Details/5 
 		public ActionResult Details(int? id)
@@ -195,6 +192,16 @@ namespace MVCRazorApp.Controllers
 				db.Dispose();
 			}
 			base.Dispose(disposing);
+		}
+
+		public ActionResult GetCategory(int catID)
+		{
+			return Content(db.Categories.Find(catID).Name);
+		}
+
+		public ActionResult GetCategoryDesc(int catID)
+		{
+			return Content(db.Categories.Find(catID).Description);
 		}
 
 	}

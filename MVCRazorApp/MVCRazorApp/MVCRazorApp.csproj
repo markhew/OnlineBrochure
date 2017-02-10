@@ -200,6 +200,7 @@
     <Content Include="Content\themes\base\autocomplete.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\accordion.css" />
+    <Content Include="Scripts\jquery.simpletip-1.3.1.min.js" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
