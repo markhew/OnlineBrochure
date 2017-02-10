@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -6,32 +7,59 @@ using System.Data.Entity;
 
 namespace MVCRazorApp.Models
 {
+	[Table("Product")]
 	public class Product
 	{
-		
+		[Key]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-		public int ID { get; set; }
+		[DisplayName("ID")]
+		public int PID { get; set; }
 		[Required]
 		public string Name { get; set; }
+
 		[Required]
-		public string Type { get; set; }
+		public int Category { get; set; }
+
+		[Required]
 		public string Description { get; set; }
 
-		[Required]
 		public decimal Price { get; set; }
-		[DisplayName("Upload Image")]
-		public byte[] ProductImg { get; set; }
 
+		public byte[] Image { get; set; }
+
+
+
+		[ForeignKey("Category")]
+		public virtual Category Cat { get; set; }
 
 
 
 	}
 
-	public partial class ProductDBContext : DbContext
+	[Table("Category")]
+	public class Category 
+	{ 
+		[Key]
+		public int CID { get; set; }
+
+		[Required]
+		[StringLength(50, ErrorMessage="Name cannot exceed 50 characters")]
+		public string Name { get; set; }
+
+		[Required]
+		[StringLength(300, ErrorMessage = "Description cannot exceed 300 characters")]
+		public string Description { get; set; }
+
+	}
+
+
+
+	public partial class BrochureDBContext : DbContext
 	{
-		public ProductDBContext() : base(nameOrConnectionString: "MyDatabaseContext") { }
+		public BrochureDBContext() : base(nameOrConnectionString: "DatabaseContext") { }
 
 		public DbSet<Product> Products { get; set; }
-
+		public DbSet<Category> Categories { get; set; }
 	}
+
 }

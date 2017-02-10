@@ -26,15 +26,15 @@
  
        
 		<div class="form-group"> 
-            @Html.LabelFor(model => model.Type, new { @class = "control-label col-md-2" }) 
+            @Html.LabelFor(model => model.Category, new { @class = "control-label col-md-2" }) 
             <div class="col-md-10"> 
-            	@Html.EditorFor(model=>model.Type)
-                @Html.ValidationMessageFor(model => model.Type) 
+            	@Html.EditorFor(model=>model.Category)
+                @Html.ValidationMessageFor(model => model.Category) 
             </div> 
         </div> 
 	
  		<div class="form-group"> 
-            @Html.LabelFor(model => model.Price, new { @class = "control-label col-md-2", onkeydown="onlyDecimal(event,this)" }) 
+            @Html.LabelFor(model => model.Price, new { @class = "control-label col-md-2", @onkeypress="onlyDecimal(event,this)" }) 
             <div class="col-md-10"> 
             	@Html.EditorFor(model=>model.Price)
 				@Html.ValidationMessageFor(model => model.Price) 
@@ -44,15 +44,15 @@
         <div class="form-group"> 
             @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" }) 
             <div class="col-md-10"> 
-                @Html.TextAreaFor(model=>model.Description, new{@class="form-control"})
+                @Html.TextAreaFor(model=>model.Description, new{@class="form-control", @onchange="onchangeEvent();"})
 				@Html.ValidationMessageFor(model => model.Description) 
             </div> 
         </div>
 
 		<div class="form-group"> 
-            @Html.LabelFor(model => model.ProductImg, new { @class = "control-label col-md-2"}) 
+            @Html.LabelFor(model => model.Image, new { @class = "control-label col-md-2"}) 
             <div class="col-md-10"> 				
-				<input type="file" name="ProductImg" id="ProductImg" accept="image/*"/>
+				<input type="file" name="Image" id="Image" accept="image/*"/>
 			</div> 
         </div>
  
@@ -70,10 +70,38 @@
  
 @section Scripts { 
     @Scripts.Render("~/bundles/jqueryval") 
+    @Scripts.Render("~/bundles/jquery")
+
     <script>
 
-	
-	
+	function onchangeEvent(){
+		alert("HELLO");
+	}
+
+	function onlyDecimal(event, input) {
+		alert("Hello");
+        var code = event.keyCode;
+        var result = "" + $(input).val();
+        if (result.length > 29) {
+            event.preventDefault();
+            return false;
+        }
+
+
+
+        if (!(code == 37 || code == 39 || (code >= 48 && code <= 57) || code == 8 || code == 9 || code == 190 || (code >= 96 && code <= 105))) {
+            //Allows ctrl-z/x/c/v
+            if (!(event.ctrlKey && (code == 88) || (code == 86) || (code == 67) || (code == 90))) {
+                event.preventDefault();
+                return false;
+            }
+        }
+
+        if (code == 190 && result.indexOf('.') >= 0) {
+            event.preventDefault();
+            return false;
+        }
+    }
 	
 	</script>
 } 

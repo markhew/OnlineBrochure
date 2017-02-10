@@ -15,7 +15,7 @@
         <h4>Product</h4> 
         <hr /> 
         @Html.ValidationSummary(true) 
-        @Html.HiddenFor(model => model.ID) 
+        @Html.HiddenFor(model => model.PID) 
 
 		<img src="@Url.Action("getImg", "Products", "new{ id = model.ID}")" />
 
@@ -31,10 +31,10 @@
 
  
         <div class="form-group"> 
-            @Html.LabelFor(model => model.Type, new { @class = "control-label col-md-2" }) 
+            @Html.LabelFor(model => model.Category, new { @class = "control-label col-md-2" }) 
             <div class="col-md-10"> 
-                @Html.EditorFor(model => model.Type) 
-                @Html.ValidationMessageFor(model => model.Type) 
+                @Html.EditorFor(model => model.Category) 
+                @Html.ValidationMessageFor(model => model.Category) 
             </div> 
         </div> 
  
@@ -55,10 +55,10 @@
         </div> 
 
 		<div class="form-group"> 
-            @Html.LabelFor(model => model.ProductImg, new { @class = "control-label col-md-2" }) 
+            @Html.LabelFor(model => model.Image, new { @class = "control-label col-md-2" }) 
             <div class="col-md-10"> 
-				<input type="file" name="ProductImg" id="ProductImg" accept="image/*"/>			
-                @Html.ValidationMessageFor(model => model.ProductImg)             
+				<input type="file" name="Image" id="Image" accept="image/*"/>			
+                @Html.ValidationMessageFor(model => model.Image)             
 			</div> 
         </div>
 

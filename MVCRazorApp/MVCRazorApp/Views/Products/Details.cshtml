@@ -19,11 +19,11 @@
         </dd> 
  
         <dt> 
-            @Html.DisplayNameFor(model => model.Type) 
+            @Html.DisplayNameFor(model => model.Category) 
         </dt> 
  
         <dd> 
-            @Html.DisplayFor(model => model.Type) 
+            @Html.DisplayFor(model => model.Category) 
         </dd> 
 
 		<dt> 
@@ -46,6 +46,6 @@
     </dl> 
 </div> 
 <p> 
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) | 
+    @Html.ActionLink("Edit", "Edit", new { id = Model.PID }) | 
     @Html.ActionLink("Back to List", "Index") 
 </p> 

@@ -17,12 +17,16 @@ namespace MVCRazorApp.Controllers
 	public class ProductsController : Controller
 	{
 
-		private ProductDBContext db = new ProductDBContext();
+		private BrochureDBContext db = new BrochureDBContext();
 
 		// GET: /Products/ 
 		public ActionResult Index()
 		{
-			return View(db.Products.ToList());
+			ProductViewModel model = new ProductViewModel();
+			model.Products = db.Products.ToList();
+			model.Categories = db.Categories.ToList();
+			//model.Categories = db.Categories.ToList();
+			return View(model.Products);
 		}
 
 		// GET: /Movies/Details/5 
@@ -51,24 +55,24 @@ namespace MVCRazorApp.Controllers
 		// more details see http://go.microsoft.com/fwlink/?LinkId=317598. 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Create([Bind(Include="Name,Type,Description,Price")] Product product, HttpPostedFileBase ProductImg)
+		public ActionResult Create([Bind(Include="Name,Category,Description,Price")] Product product, HttpPostedFileBase Image)
 		{
 			if (ModelState.IsValid)
 			{
 
-				if (ProductImg != null)
+				if (Image != null)
 				{
 					byte[] imgByte = null;
 
-					using (var binaryReader = new BinaryReader(ProductImg.InputStream))
+					using (var binaryReader = new BinaryReader(Image.InputStream))
 					{
-						imgByte = binaryReader.ReadBytes(ProductImg.ContentLength);
+						imgByte = binaryReader.ReadBytes(Image.ContentLength);
 					}
-					product.ProductImg = imgByte;
+					product.Image = imgByte;
 
 				}
 				else {
-					product.ProductImg = UseDefaultImage();
+					product.Image = UseDefaultImage();
 				}
 
 
@@ -102,7 +106,7 @@ namespace MVCRazorApp.Controllers
 		// more details see http://go.microsoft.com/fwlink/?LinkId=317598. 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Edit(int ID, string Name, string Type, string Description, decimal Price, HttpPostedFileBase ProductImg)
+		public ActionResult Edit(int ID, string Name, int Category, string Description, decimal Price, HttpPostedFileBase Image)
 		{
 			Product product = db.Products.Find(ID);
 
@@ -111,18 +115,18 @@ namespace MVCRazorApp.Controllers
 			if (ModelState.IsValid)
 			{
 				product.Name = Name;
-				product.Type = Type;
+				product.Category = Category;
 				product.Description = Description;
 				product.Price = Price;
 
-				if (ProductImg != null)
+				if (Image != null)
 				{
 					byte[] imgByte;
-					using (var binaryReader = new BinaryReader(ProductImg.InputStream))
+					using (var binaryReader = new BinaryReader(Image.InputStream))
 					{
-						imgByte = binaryReader.ReadBytes(ProductImg.ContentLength);
+						imgByte = binaryReader.ReadBytes(Image.ContentLength);
 					}
-					product.ProductImg = imgByte;
+					product.Image = imgByte;
 
 				}
 
@@ -161,7 +165,7 @@ namespace MVCRazorApp.Controllers
 
 		public FileContentResult getImg(int id)
 		{
-			byte[] byteArray = db.Products.Find(id).ProductImg;
+			byte[] byteArray = db.Products.Find(id).Image;
 			return byteArray != null
 				? new FileContentResult(byteArray, "image/jpeg")
 				: null;
