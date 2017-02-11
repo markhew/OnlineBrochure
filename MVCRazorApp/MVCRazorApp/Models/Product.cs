@@ -31,8 +31,16 @@ namespace MVCRazorApp.Models
 
 		[ForeignKey("Category")]
 		public virtual Category Cat { get; set; }
+		public Product() { }
 
+		public Product(CreateProductViewModel cp)
+		{
+			this.Name = cp.Name;
+			this.Category = cp.Category;
+			this.Description = cp.Description;
+			this.Price = cp.Price;
 
+		}
 
 	}
 

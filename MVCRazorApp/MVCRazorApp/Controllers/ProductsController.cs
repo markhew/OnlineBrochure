@@ -11,7 +11,6 @@ using System.Net;
 using MVCRazorApp.Models;
 using System.IO;
 using System.Drawing;
-
 namespace MVCRazorApp.Controllers
 {
 	public class ProductsController : Controller
@@ -44,7 +43,9 @@ namespace MVCRazorApp.Controllers
 		// GET: /Products/Create 
 		public ActionResult Create()
 		{
-			return View();
+			CreateProductViewModel viewmodel = new CreateProductViewModel();
+			viewmodel.Categories = db.Categories.ToList();
+			return View(viewmodel);
 		}
 
 		// POST: /Product/Create 
@@ -52,18 +53,20 @@ namespace MVCRazorApp.Controllers
 		// more details see http://go.microsoft.com/fwlink/?LinkId=317598. 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Create([Bind(Include="Name,Category,Description,Price")] Product product, HttpPostedFileBase Image)
+		public ActionResult Create([Bind(Include="Name,Category,Description,Price,Image")] CreateProductViewModel productmodel)
 		{
+			Product product = new Product(productmodel);
+
 			if (ModelState.IsValid)
 			{
 
-				if (Image != null)
+				if (productmodel.Image != null)
 				{
 					byte[] imgByte = null;
 
-					using (var binaryReader = new BinaryReader(Image.InputStream))
+					using (var binaryReader = new BinaryReader(productmodel.Image.InputStream))
 					{
-						imgByte = binaryReader.ReadBytes(Image.ContentLength);
+						imgByte = binaryReader.ReadBytes(productmodel.Image.ContentLength);
 					}
 					product.Image = imgByte;
 
@@ -79,6 +82,7 @@ namespace MVCRazorApp.Controllers
 				db.SaveChanges();
 				return RedirectToAction("Index");
 			}
+
 
 			return View(product);
 		}
