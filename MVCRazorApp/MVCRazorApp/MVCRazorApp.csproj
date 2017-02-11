@@ -119,7 +119,7 @@
     </Compile>
     <Compile Include="Models\Product.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
-    <Compile Include="Models\CreateProductViewModel.cs" />
+    <Compile Include="Models\ViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Web.config" />

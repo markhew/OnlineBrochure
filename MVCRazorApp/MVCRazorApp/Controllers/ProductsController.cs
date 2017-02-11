@@ -95,11 +95,13 @@ namespace MVCRazorApp.Controllers
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 			}
 			Product product = db.Products.Find(id);
+			var viewmodel = new EditProductViewModel(product,db.Categories.ToList());
+
 			if (product == null)
 			{
 				return HttpNotFound();
 			}
-			return View(product);
+			return View(viewmodel);
 		}
 
 		// POST: /Product/Edit/5 
@@ -107,25 +109,23 @@ namespace MVCRazorApp.Controllers
 		// more details see http://go.microsoft.com/fwlink/?LinkId=317598. 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Edit(int ID, string Name, int Category, string Description, decimal Price, HttpPostedFileBase Image)
+		public ActionResult Edit([Bind(Include = "ID,Name,Category,Description,Price,Image")] EditProductViewModel productmodel)
 		{
-			Product product = db.Products.Find(ID);
-
-
+			Product product = db.Products.Find(productmodel.ID);
 
 			if (ModelState.IsValid)
 			{
-				product.Name = Name;
-				product.Category = Category;
-				product.Description = Description;
-				product.Price = Price;
+				product.Name = productmodel.Name;
+				product.Category = productmodel.Category;
+				product.Description = productmodel.Description;
+				product.Price = productmodel.Price;
 
-				if (Image != null)
+				if (productmodel.NewImage != null)
 				{
 					byte[] imgByte;
-					using (var binaryReader = new BinaryReader(Image.InputStream))
+					using (var binaryReader = new BinaryReader(productmodel.NewImage.InputStream))
 					{
-						imgByte = binaryReader.ReadBytes(Image.ContentLength);
+						imgByte = binaryReader.ReadBytes(productmodel.NewImage.ContentLength);
 					}
 					product.Image = imgByte;
 
@@ -170,6 +170,11 @@ namespace MVCRazorApp.Controllers
 			return byteArray != null
 				? new FileContentResult(byteArray, "image/jpeg")
 				: null;
+		}
+
+		public string getWord() 
+		{
+			return "HELLO";
 		}
 
 		private byte[] UseDefaultImage()

@@ -1,4 +1,4 @@
-﻿@model MVCRazorApp.Models.Product 
+﻿@model MVCRazorApp.Models.EditProductViewModel 
  
 @{ 
     ViewBag.Title = "Edit"; 
@@ -15,11 +15,13 @@
         <h4>Product</h4> 
         <hr /> 
         @Html.ValidationSummary(true) 
-        @Html.HiddenFor(model => model.PID) 
+        @Html.HiddenFor(model => model.ID) 
 
-		<img src="@Url.Action("getImg", "Products", "new{ id = model.ID}")" />
+		<div class="col-md-12">
+			<img src='@Url.Action("getImg", new {id = Model.ID} )' width="100%" height="100%" class="col-md-4"/>
+        </div> 
 
-	
+
         <div class="form-group"> 
             @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" }) 
             <div class="col-md-10"> 
@@ -33,7 +35,7 @@
         <div class="form-group"> 
             @Html.LabelFor(model => model.Category, new { @class = "control-label col-md-2" }) 
             <div class="col-md-10"> 
-                @Html.EditorFor(model => model.Category) 
+            	@Html.DropDownListFor(model=>model.Category, new SelectList(Model.Categories, "CID", "Name"), new {@class = "dropdown form-control"})
                 @Html.ValidationMessageFor(model => model.Category) 
             </div> 
         </div> 
@@ -55,10 +57,10 @@
         </div> 
 
 		<div class="form-group"> 
-            @Html.LabelFor(model => model.Image, new { @class = "control-label col-md-2" }) 
+            @Html.LabelFor(model => model.NewImage, new { @class = "control-label col-md-2" }) 
             <div class="col-md-10"> 
 				<input type="file" name="Image" id="Image" accept="image/*"/>			
-                @Html.ValidationMessageFor(model => model.Image)             
+                @Html.ValidationMessageFor(model => model.NewImage)             
 			</div> 
         </div>
 
