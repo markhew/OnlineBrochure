@@ -48,6 +48,11 @@ namespace MVCRazorApp.Controllers
 			return View(viewmodel);
 		}
 
+		public ActionResult CreateCategory()
+		{
+			return View();
+		}
+
 		// POST: /Product/Create 
 		// To protect from overposting attacks, please enable the specific properties you want to bind to, for  
 		// more details see http://go.microsoft.com/fwlink/?LinkId=317598. 
@@ -87,6 +92,22 @@ namespace MVCRazorApp.Controllers
 			return View(product);
 		}
 
+
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult CreateCategory([Bind(Include = "Name,Description")] Category cat)
+		{
+			if (ModelState.IsValid)
+			{
+				db.Categories.Add(cat);
+				db.SaveChanges();
+				return RedirectToAction("Index");
+			}
+			return View(cat);
+		}
+
+
 		// GET: /Product/Edit/5 
 		public ActionResult Edit(int? id)
 		{
@@ -96,6 +117,22 @@ namespace MVCRazorApp.Controllers
 			}
 			Product product = db.Products.Find(id);
 			var viewmodel = new EditProductViewModel(product,db.Categories.ToList());
+
+			if (product == null)
+			{
+				return HttpNotFound();
+			}
+			return View(viewmodel);
+		}
+
+		public ActionResult Edit2(int? id)
+		{
+			if (id == null)
+			{
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			}
+			Product product = db.Products.Find(id);
+			var viewmodel = new EditProductViewModel(product, db.Categories.ToList());
 
 			if (product == null)
 			{
@@ -164,6 +201,7 @@ namespace MVCRazorApp.Controllers
 			return RedirectToAction("Index");
 		}
 
+
 		public FileContentResult getImg(int id)
 		{
 			byte[] byteArray = db.Products.Find(id).Image;
@@ -172,10 +210,7 @@ namespace MVCRazorApp.Controllers
 				: null;
 		}
 
-		public string getWord() 
-		{
-			return "HELLO";
-		}
+
 
 		private byte[] UseDefaultImage()
 		{
@@ -186,7 +221,7 @@ namespace MVCRazorApp.Controllers
 			using (Graphics graph = Graphics.FromImage(img))
 			{
 				Rectangle ImageSize = new Rectangle(0, 0, width, height);
-				graph.FillRectangle(Brushes.White, ImageSize);
+				graph.FillRectangle(Brushes.Black, ImageSize);
 			}
 
 			ImageConverter converter = new ImageConverter();
