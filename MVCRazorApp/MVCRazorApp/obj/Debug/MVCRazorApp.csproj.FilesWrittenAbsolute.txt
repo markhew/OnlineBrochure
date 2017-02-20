@@ -70,3 +70,4 @@
 /Users/markhew/OnlineBrochure/MVCRazorApp/MVCRazorApp/bin/System.Web.Optimization.dll
 /Users/markhew/OnlineBrochure/MVCRazorApp/MVCRazorApp/bin/Extensions.NET.dll
 /Users/markhew/OnlineBrochure/MVCRazorApp/MVCRazorApp/bin/Wrapper.ADO.dll
+/Users/markhew/OnlineBrochure/MVCRazorApp/MVCRazorApp/bin/nunit.framework.dll

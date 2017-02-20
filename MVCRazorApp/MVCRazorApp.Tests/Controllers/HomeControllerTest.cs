@@ -24,7 +24,7 @@ namespace MVCRazorApp.Tests
 			var mvcName = typeof(Controller).Assembly.GetName ();
 			var isMono = Type.GetType ("Mono.Runtime") != null;
 
-			var expectedVersion = mvcName.Version.Major;
+			var expectedVersion = "5.2";
 			var expectedRuntime = isMono ? "Mono" : ".NET";
 
 			// Assert

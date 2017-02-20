@@ -21,13 +21,12 @@ namespace MVCRazorApp.Models
 		public int Category { get; set; }
 
 		[Required]
+		[StringLength(300, ErrorMessage = "Description cannot exceed 300 characters")]
 		public string Description { get; set; }
 
 		public decimal Price { get; set; }
 
 		public byte[] Image { get; set; }
-
-
 
 		[ForeignKey("Category")]
 		public virtual Category Cat { get; set; }
