@@ -1,0 +1,51 @@
+﻿@using MVCRazorApp.Models
+@model IEnumerable<MVCRazorApp.Models.Admin> 
+ 
+@{ 
+    ViewBag.Title = "Admins"; 
+} 
+ 
+<h2>Index</h2> 
+ 
+<p> 
+    @Html.ActionLink("Register New Admin", "Register") 
+</p> 
+<table class="table" id="AdminTb"> 
+    <tr> 
+
+        <th> 
+            @Html.DisplayNameFor(model => model.Username) 
+        </th> 
+        <th> 
+            @Html.DisplayNameFor(model => model.Email) 
+        </th> 
+		
+        <th></th> 
+    </tr> 
+	@foreach (var item in Model) { 
+	    <tr> 
+
+	        <td> 
+	            @Html.DisplayFor(modelItem => item.Username) 
+	        </td> 
+
+
+	        <td> 
+	            @Html.DisplayFor(modelItem => item.Email) 
+	        </td> 
+	 
+	        <td> 
+	            @Html.ActionLink("Edit", "Edit", new { id=item.Username }) | 
+	            @Html.ActionLink("Delete", "Delete", new { id=item.Username }) 
+	        </td> 
+	    </tr> 
+
+
+	}
+
+ 
+</table> 
+
+	   
+
+

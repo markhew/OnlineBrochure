@@ -21,7 +21,7 @@ namespace MVCRazorApp.Tests
 			// Act
 			var result = (ViewResult)controller.Index ();
 
-			var mvcName = typeof(Controller).Assembly.GetName ();
+			//var mvcName = typeof(Controller).Assembly.GetName ();
 			var isMono = Type.GetType ("Mono.Runtime") != null;
 
 			var expectedVersion = "5.2";

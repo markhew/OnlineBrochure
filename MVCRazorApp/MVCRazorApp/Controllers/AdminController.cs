@@ -10,9 +10,10 @@ namespace MVCRazorApp.Controllers
 {
     public class AdminController : Controller
     {
+		private AdminDBContext db = new AdminDBContext();
         public ActionResult Index()
         {
-            return View ();
+			return View (db.Admins.ToList());
         }
 
 		public ActionResult Register()
@@ -21,20 +22,23 @@ namespace MVCRazorApp.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult Register([Bind(Include = "Username,Email,Password,ConfirmPassword")] AdminViewModel admin)
+		public ActionResult Register([Bind(Include = "Username,Email,Password,ConfirmPassword")] AdminViewModel viewAdmin)
 		{
 			if (ModelState.IsValid) 
 			{
-				using (var db = new AdminDBContext())
+				using (var sha = SHA256.Create()) 
 				{
-					using (var sha = SHA256.Create()) 
-					{
-						var password = "";
-					}
-					db.SaveChanges();
+					var password = "";
 				}
+				byte[] salt = AdminHelper.GenerateSalt();
+
+				Admin newAdmin = new Admin(viewAdmin.Username, viewAdmin.Email, viewAdmin.Password, salt, DateTime.Now);
+
+				db.Admins.Add(newAdmin);
+				db.SaveChanges();
+
 				ModelState.Clear();
-				ViewBag.Message = "Admin :" + admin.Username + " created.";
+				ViewBag.Message = "Admin :" + viewAdmin.Username + " created.";
 			}
 
 

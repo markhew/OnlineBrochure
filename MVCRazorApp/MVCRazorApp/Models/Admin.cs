@@ -7,8 +7,10 @@ using System.Data.Entity;
 
 namespace MVCRazorApp.Models
 {
+	[Table("Admin")]
 	public class Admin
 	{
+		[Key]
 		[Required]
 		public string Username { get; set; }
 
@@ -21,13 +23,20 @@ namespace MVCRazorApp.Models
 		[DataType(DataType.Password)]
 		public string Password { get; set; }
 
+		[Required]
+		public byte[] Salt { get; set; }
 
 		public DateTime Create_time { get; set; }
 
-		public Admin() 
-		{
-			
+		public Admin() {}
 
+		public Admin(string uname, string email, string password, byte[] salt, DateTime ctime)
+		{
+			this.Username = uname;
+			this.Email = email;
+			this.Password = password;
+			this.Create_time = ctime;
+			this.Salt = salt;
 		}
 	}
 
