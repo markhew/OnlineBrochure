@@ -26,13 +26,10 @@ namespace MVCRazorApp.Controllers
 		{
 			if (ModelState.IsValid) 
 			{
-				using (var sha = SHA256.Create()) 
-				{
-					var password = "";
-				}
+				
 				byte[] salt = AdminHelper.GenerateSalt();
-
-				Admin newAdmin = new Admin(viewAdmin.Username, viewAdmin.Email, viewAdmin.Password, salt, DateTime.Now);
+				string hashPassword = AdminHelper.HashPassword(viewAdmin.Password, salt);
+				var newAdmin = new Admin(viewAdmin.Username, viewAdmin.Email, hashPassword, salt, DateTime.Now);
 
 				db.Admins.Add(newAdmin);
 				db.SaveChanges();
