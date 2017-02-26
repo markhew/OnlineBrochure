@@ -48,5 +48,23 @@ namespace MVCRazorApp.Tests
 			Assert.AreEqual(hPassword.Length, 48, "Hashed Password Length not 48");
 
 		}
+
+		[Test]
+		public void TestLogin()
+		{
+			string password = "TestingThisPassword";
+			byte[] salt = AdminHelper.GenerateSalt();
+			string hPassword = AdminHelper.HashPassword(password, salt);
+			string correctPassword = "TestingThisPassword";
+			string incorrectPassword = "Testing Another Password";
+			string caseInsensitive = "testingthispassword";
+
+
+			Assert.True(AdminHelper.ComparePassword(hPassword, salt, password));
+			Assert.True(AdminHelper.ComparePassword(hPassword, salt, correctPassword));
+			Assert.False(AdminHelper.ComparePassword(hPassword, salt, incorrectPassword));
+			Assert.False(AdminHelper.ComparePassword(hPassword, salt, caseInsensitive));
+
+		}
 	}
 }
